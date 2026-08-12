@@ -9,7 +9,7 @@ void array_reserve_impl(
     if (new_capacity <= *capacity)
         return;
 
-    auto new_data = mem_realloc(*data, new_capacity * element_size);
+    let new_data = mem_realloc(*data, new_capacity * element_size);
 
     if (new_data == nullptr)
         return;

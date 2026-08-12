@@ -3,20 +3,23 @@
 #include <stddef.h>
 #include "util/array.h"
 
-struct lexer {
-    const char *nonnull source;
-    array(const struct token) tokens;
-    char current;
-    size_t position;
-    size_t column;
-    size_t line;
-};
-
 enum [[nodiscard]] lexer_result {
     LEXER_SUCCESS,
     LEXER_INVALID_CHARACTER,
     LEXER_INVALID_NUMBER,
     LEXER_UNTERMINATED_STRING
+};
+
+struct lexer {
+    const char *nonnull source;
+    array(struct token) tokens;
+
+    enum lexer_result result;
+
+    char current;
+    size_t position;
+    size_t column;
+    size_t line;
 };
 
 struct lexer lexer_create(const char *nonnull source);

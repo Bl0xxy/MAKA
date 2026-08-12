@@ -27,6 +27,8 @@ target_compile_definitions(maka PRIVATE
     nullable=_Nullable
     nonnull=_Nonnull
     auto=auto
+    var=auto
+    let=const\ auto
 )
 
 set_target_properties(maka PROPERTIES
