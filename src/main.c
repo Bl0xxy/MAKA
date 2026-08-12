@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int main(void) {
-    var lexer = lexer_create("2 + 14 * 5");
+    var lexer = lexer_create("\"hello, world!\\n\" * 23");
     let result = lexer_lex(&lexer);
     let tokens = lexer.tokens;
 

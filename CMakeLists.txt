@@ -17,6 +17,7 @@ target_include_directories(maka PRIVATE
 )
 
 target_compile_options(maka PRIVATE
+    -O3
     -Werror
     -Wnullable-to-nonnull-conversion
 )

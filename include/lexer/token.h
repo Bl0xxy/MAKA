@@ -3,14 +3,22 @@
 #include <stddef.h>
 
 enum token_kind {
+    // values & data
     TOKEN_NUMBER,
     TOKEN_STRING,
+    
+    TOKEN_IDENTIFIER,
 
+    // keywords
+    TOKEN_USE,
+
+    // symbols
     TOKEN_PLUS,
     TOKEN_MINUS,
     TOKEN_STAR,
     TOKEN_SLASH,
     
+    // misc.
     TOKEN_EOF
 };
 

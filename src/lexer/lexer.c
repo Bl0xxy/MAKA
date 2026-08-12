@@ -4,6 +4,15 @@
 #include "lexer/token.h"
 #include "util/array.h"
 
+static const struct {
+    const char *nonnull name;
+    enum token_kind kind;
+} keywords[] = {
+    { "use", TOKEN_USE }
+};
+
+constexpr auto keywords_len = sizeof(keywords) / sizeof(*keywords);
+
 struct lexer lexer_create(const char *nonnull source) {
     return (struct lexer) {
         .source = source,
@@ -64,37 +73,32 @@ struct token lexer_next(struct lexer *nonnull self) {
         return token;
     }
 
+    // identifier/keyword handling
+    // if (isalpha(self->current)) {
+    //     while (isalnum(self->current))
+    //         lexer_advance(self);
+
+    //     token.length = &self->source[self->position] - token.value;
+        
+    // }
+
     switch (self->current) {
         // string handling
-        /* case '"':
+        case '"':
             lexer_advance(self);
             token = lexer_build_token(self, 0, TOKEN_STRING);
 
-            while (true) {
-                switch (self->current) {
-                    case '\0':
-                        self->result = LEXER_UNTERMINATED_STRING;
-                        return token;
-
-                    case '\\':
-                        lexer_advance(self);
-
-                        // switch (self->current) {
-                        //     case 'n':
-
-                        // }
-
-                    case '"': break;
-                }
-            }
+            while (self->current != '"' && self->current != '\0')
+                lexer_advance(self);
 
             if (self->current == '\0') {
                 self->result = LEXER_UNTERMINATED_STRING;
                 return token;
             }
 
+            token.length = &self->source[self->position] - token.value;
+            lexer_advance(self);
             break;
-        */
 
         // symbol handling
         case '+':
