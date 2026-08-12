@@ -34,33 +34,69 @@ void lexer_advance(struct lexer *nonnull self) {
     self->current = self->source[self->position];
 }
 
+static struct token lexer_build_token(const struct lexer *nonnull self, size_t length, enum token_kind kind) {
+    return (struct token) {
+        .value = &self->source[self->position],
+        .length = length,
+        .kind = kind,
+        .line = self->line,
+        .column = self->column
+    };
+}
+
 struct token lexer_next(struct lexer *nonnull self) {
     while (isspace(self->current))
         lexer_advance(self);
 
-    let nonnull start = &self->source[self->position];
+    struct token token = lexer_build_token(self, 0, TOKEN_EOF);
 
-    struct token token = {
-        .value = start,
-        .length = 0,
-        .kind = TOKEN_EOF,
-        .line = self->line,
-        .column = self->column
-    };
-
+    // null handling
     if (self->current == '\0')
         return token;
 
+    // number handling
     if (isdigit(self->current)) {
         while (isdigit(self->current))
             lexer_advance(self);
         
-        token.length = &self->source[self->position] - start;
+        token.length = &self->source[self->position] - token.value;
         token.kind = TOKEN_NUMBER;
         return token;
     }
 
     switch (self->current) {
+        // string handling
+        /* case '"':
+            lexer_advance(self);
+            token = lexer_build_token(self, 0, TOKEN_STRING);
+
+            while (true) {
+                switch (self->current) {
+                    case '\0':
+                        self->result = LEXER_UNTERMINATED_STRING;
+                        return token;
+
+                    case '\\':
+                        lexer_advance(self);
+
+                        // switch (self->current) {
+                        //     case 'n':
+
+                        // }
+
+                    case '"': break;
+                }
+            }
+
+            if (self->current == '\0') {
+                self->result = LEXER_UNTERMINATED_STRING;
+                return token;
+            }
+
+            break;
+        */
+
+        // symbol handling
         case '+':
             lexer_advance(self);
             token.length = 1;

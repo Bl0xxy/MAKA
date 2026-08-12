@@ -4,6 +4,7 @@
 
 enum token_kind {
     TOKEN_NUMBER,
+    TOKEN_STRING,
 
     TOKEN_PLUS,
     TOKEN_MINUS,
